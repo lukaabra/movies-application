@@ -39,6 +39,12 @@ class MovieRepository {
             });
     }
 
+    deleteOne(id) {
+        return knex('movies').where({
+            id
+        }).del();
+    }
+
 }
 
 module.exports = new MovieRepository();

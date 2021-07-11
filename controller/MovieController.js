@@ -119,8 +119,26 @@ class MovieController {
         }
     }
 
-    deleteMovie(id) {
+    async deleteMovie(req, res) {
+        try {
+            const {
+                id
+            } = req.params;
 
+            const result = await movieService.deleteOne(id);
+
+            if (result) {
+                res.status(200).json(result);
+            } else {
+                res.status(404).json({
+                    succcess: false,
+                    message: 'A movie with that id does not exist'
+                });
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
     }
 
 };

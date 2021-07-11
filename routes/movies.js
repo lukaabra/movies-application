@@ -9,5 +9,6 @@ router.post(`${apiVersion}/movies`, movieController.createMovie);
 
 router.get(`${apiVersion}/movies/:id`, movieController.getMovie);
 router.put(`${apiVersion}/movies/:id`, movieController.updateMovie);
+router.delete(`${apiVersion}/movies/:id`, movieController.deleteMovie);
 
 module.exports = router;

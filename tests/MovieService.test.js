@@ -191,4 +191,67 @@ describe('tests for MovieService', () => {
 
     });
 
+    describe("the deleteOne method", () => {
+
+        it(`successfully deletes a movie`, async () => {
+
+            const id = 7,
+                name = 'Lord of the Rings: The Return of the King',
+                genre = 'Science Fiction',
+                rating = 10,
+                explicit = false;
+
+            const tableCountBefore = parseInt((await knex('movies').count('*'))[0].count);
+            const movieBefore = (await knex.from('movies').where({
+                id: id
+            }).select('name', 'genre', 'rating', 'explicit'))[0];
+
+            const result = await movieService.deleteOne(id);
+
+            const tableCountAfter = parseInt((await knex('movies').count('*'))[0].count);
+            const movieAfter = (await knex.from('movies').where({
+                id: id
+            }).select('name', 'genre', 'rating', 'explicit'))[0];
+
+            expect(movieBefore).toEqual(expect.objectContaining({
+                name: name,
+                genre: genre,
+                rating: rating,
+                explicit: explicit
+            }));
+            expect(movieAfter).toBeUndefined();
+            expect(result).toBe(1);
+            expect(tableCountBefore).toBe(tableCountAfter + 1);
+        });
+
+        it(`attempts to delete a movie that doesn't exist.`, async () => {
+
+            const id = 10000,
+                name = 'Updated Name',
+                genre = 'Romance',
+                rating = 2,
+                explicit = false;
+
+            const tableCountBefore = parseInt((await knex('movies').count('*'))[0].count);
+            const movieBefore = (await knex.from('movies').where({
+                id: id
+            }).select('name', 'genre', 'rating', 'explicit'))[0];
+
+            try {
+                var result = await movieService.updateOne(id, name, genre, rating, explicit);
+            } catch (err) {}
+
+            const tableCountAfter = parseInt((await knex('movies').count('*'))[0].count);
+            const movieAfter = (await knex.from('movies').where({
+                id: id
+            }).select('name', 'genre', 'rating', 'explicit'))[0];
+
+            expect(movieBefore).toBeUndefined()
+            expect(movieAfter).toBeUndefined()
+            expect(result).toBe(0)
+            expect(tableCountBefore).toBe(tableCountAfter);
+        });
+
+    });
+
 });

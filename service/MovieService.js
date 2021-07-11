@@ -28,7 +28,7 @@ class MovieService {
     }
 
     async deleteOne(id) {
-
+        return await movieRepo.deleteOne(id)
     }
 
 }
