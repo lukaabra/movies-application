@@ -19,15 +19,15 @@ class MovieService {
         return await movieRepo.getOne(id);
     }
 
-    updateOne(id, name, genre, rating, explicit) {
-
-    }
-
     async createNew(name, genre, rating, explicit) {
         return await movieRepo.createNew(name, genre, rating, explicit);
     }
 
-    deleteOne(id) {
+    async updateOne(id, name, genre, rating, explicit) {
+        return await movieRepo.updateOne(id, name, genre, rating, explicit);
+    }
+
+    async deleteOne(id) {
 
     }
 

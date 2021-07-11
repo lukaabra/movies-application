@@ -8,5 +8,6 @@ router.get(`${apiVersion}/movies`, movieController.getMovies);
 router.post(`${apiVersion}/movies`, movieController.createMovie);
 
 router.get(`${apiVersion}/movies/:id`, movieController.getMovie);
+router.put(`${apiVersion}/movies/:id`, movieController.updateMovie);
 
 module.exports = router;

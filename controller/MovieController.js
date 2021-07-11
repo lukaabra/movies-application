@@ -92,8 +92,31 @@ class MovieController {
         }
     }
 
-    updateMovie(id, title, genre, rating, explicit) {
+    async updateMovie(req, res) {
+        try {
+            const {
+                name,
+                genre,
+                rating,
+                explicit
+            } = req.body;
+            const {
+                id
+            } = req.params;
 
+            const movie = await movieService.updateOne(id, name, genre, rating, explicit);
+
+            if (movie) {
+                res.status(200).json(movie);
+            } else {
+                res.status(404).json({
+                    succcess: false
+                });
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
     }
 
     deleteMovie(id) {

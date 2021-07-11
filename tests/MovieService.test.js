@@ -112,8 +112,6 @@ describe('tests for MovieService', () => {
                 var error = err
             }
 
-            console.log(error)
-
             const tableCountAfter = parseInt((await knex('movies').count('*'))[0].count);
 
             expect(error.name).toBe('error');
@@ -124,4 +122,73 @@ describe('tests for MovieService', () => {
         });
 
     });
+
+    describe("the updateOne method", () => {
+
+        it(`updates a movie (all fields).`, async () => {
+
+            const id = 5,
+                name = 'Updated Name',
+                genre = 'Romance',
+                rating = 2,
+                explicit = false;
+
+            const tableCountBefore = parseInt((await knex('movies').count('*'))[0].count);
+            const movieBefore = (await knex.from('movies').where({
+                id: id
+            }).select('name', 'genre', 'rating', 'explicit'))[0];
+
+            const result = await movieService.updateOne(id, name, genre, rating, explicit);
+
+            const tableCountAfter = parseInt((await knex('movies').count('*'))[0].count);
+            const movieAfter = (await knex.from('movies').where({
+                id: id
+            }).select('name', 'genre', 'rating', 'explicit'))[0];
+
+            expect(movieAfter).toEqual(expect.objectContaining({
+                name: name,
+                genre: genre,
+                rating: rating,
+                explicit: explicit
+            }));
+            expect(movieBefore).not.toEqual(expect.objectContaining({
+                name: movieAfter.name,
+                genre: movieAfter.genre,
+                rating: movieAfter.rating,
+                explicit: movieAfter.explicit
+            }));
+            expect(result).toBe(1);
+            expect(tableCountBefore).toBe(tableCountAfter);
+        });
+
+        it(`attempts to update a movie that doesn't exist.`, async () => {
+
+            const id = 10000,
+                name = 'Updated Name',
+                genre = 'Romance',
+                rating = 2,
+                explicit = false;
+
+            const tableCountBefore = parseInt((await knex('movies').count('*'))[0].count);
+            const movieBefore = (await knex.from('movies').where({
+                id: id
+            }).select('name', 'genre', 'rating', 'explicit'))[0];
+
+            try {
+                var result = await movieService.updateOne(id, name, genre, rating, explicit);
+            } catch (err) {}
+
+            const tableCountAfter = parseInt((await knex('movies').count('*'))[0].count);
+            const movieAfter = (await knex.from('movies').where({
+                id: id
+            }).select('name', 'genre', 'rating', 'explicit'))[0];
+
+            expect(movieBefore).toBeUndefined()
+            expect(movieAfter).toBeUndefined()
+            expect(result).toBe(0)
+            expect(tableCountBefore).toBe(tableCountAfter);
+        });
+
+    });
+
 });

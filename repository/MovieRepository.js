@@ -25,8 +25,18 @@ class MovieRepository {
         });
     }
 
+    // All columns are always updated since they are all NOT NULL columns
     updateOne(id, name, genre, rating, explicit) {
-
+        return knex('movies')
+            .where({
+                id
+            })
+            .update({
+                name: name,
+                genre: genre,
+                rating: rating,
+                explicit: explicit
+            });
     }
 
 }
