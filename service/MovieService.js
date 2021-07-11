@@ -9,6 +9,9 @@ class MovieService {
     constructor() {}
 
     async getAll(limit, offset) {
+        limit = limit == undefined ? 50 : limit;
+        offset = offset == undefined ? 0 : offset;
+
         return await movieRepo.getAll(limit, offset);
     }
 
@@ -16,12 +19,12 @@ class MovieService {
         return await movieRepo.getOne(id);
     }
 
-    updateOne(id, title, genre, rating, explicit) {
+    updateOne(id, name, genre, rating, explicit) {
 
     }
 
-    createNew(title, genre, rating, explicit) {
-
+    async createNew(name, genre, rating, explicit) {
+        return await movieRepo.createNew(name, genre, rating, explicit);
     }
 
     deleteOne(id) {

@@ -57,8 +57,39 @@ class MovieController {
         }
     }
 
-    createMovie(title, genre, rating, explicit) {
+    async createMovie(req, res) {
+        try {
+            const {
+                name,
+                genre,
+                rating,
+                explicit
+            } = req.body;
 
+            const createdMovieId = await movieService.createNew(name, genre, rating, explicit);
+
+            if (createdMovieId) {
+                res.status(200).json({
+                    success: true,
+                    createdId: createdMovieId
+                });
+            } else {
+                res.status(404).json({
+                    succcess: false
+                });
+            }
+        } catch (err) {
+            console.log(err);
+
+            if (err.code = 23505) {
+                res.status(409).json({
+                    succcess: false,
+                    message: 'Title already exists. Please choose another movie.',
+                });
+            } else {
+                res.status(500).json(err);
+            }
+        }
     }
 
     updateMovie(id, title, genre, rating, explicit) {

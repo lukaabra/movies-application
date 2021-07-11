@@ -7,9 +7,6 @@ class MovieRepository {
     }
 
     getAll(limit, offset) {
-        limit = limit == undefined ? 50 : limit;
-        offset = offset == undefined ? 0 : offset;
-
         return knex.from('movies').select('name', 'genre', 'rating', 'explicit');
     }
 
@@ -19,7 +16,16 @@ class MovieRepository {
         }).select('name', 'genre', 'rating', 'explicit');
     }
 
-    updateOne(id, title, genre, rating, explicit) {
+    createNew(name, genre, rating, explicit) {
+        return knex('movies').insert({
+            name: name,
+            genre: genre,
+            rating: rating,
+            explicit: explicit
+        });
+    }
+
+    updateOne(id, name, genre, rating, explicit) {
 
     }
 

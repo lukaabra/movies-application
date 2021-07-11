@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "nodemon server.js",
+    "debug": "nodemon --inspect server.js",
     "migrate": "npx knex migrate:latest --knexfile ./db/knexfile.js",
     "seed": "npx knex seed:run",
     "start": "node ./bin/www",
-    "test": "jest"
+    "test": "(knex --knexfile ./db/knexfile.js migrate:rollback && knex --knexfile ./db/knexfile.js migrate:latest && knex --knexfile ./db/knexfile.js seed:run) && jest --verbose"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
