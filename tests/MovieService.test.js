@@ -14,24 +14,30 @@ describe('tests for MovieService', () => {
         const allMovies = movieService.getAll();
 
         it(`returns at least one movie.`, async () => {
+            expect.assertions(1);
             expect((await allMovies).length).toBeGreaterThan(0);
         });
 
         it(`returns up to a maximum of ${limit} movies.`, async () => {
+            expect.assertions(1);
             expect((await allMovies).length).toBeLessThanOrEqual(50);
         });
 
         it(`returns an array of movies`, async () => {
-            expect(await allMovies).toBeInstanceOf(Array);
+            expect.assertions(1);
+            expect((await allMovies)).toBeInstanceOf(Array);
         });
 
-        it('the first element of the array is a JSON', async () => {
+        it('has a JSON inside of an array', async () => {
+            expect.assertions(1);
             expect((await allMovies)[0]).toBeInstanceOf(Object);
         });
 
     });
 
     describe("the getOne method", () => {
+
+        expect.assertions(4);
 
         it(`returns one movie.`, async () => {
             const id = 1;
@@ -47,14 +53,14 @@ describe('tests for MovieService', () => {
             }));
         });
 
-        it(`try getting a movie with the id of 0.`, async () => {
+        it(`tries to gets a movie with the id of 0.`, async () => {
             const id = 0;
             const movie = await movieService.getOne(id);
 
             expect(movie).toEqual([]);
         });
 
-        it(`try getting a movie with too large id`, async () => {
+        it(`tries to get a movie with too large id`, async () => {
             const id = 40;
             const movie = await movieService.getOne(id);
 
@@ -62,7 +68,7 @@ describe('tests for MovieService', () => {
             expect(movie).toEqual([]);
         });
 
-        it('try getting a movie with a negative id', async () => {
+        it('tries to get a movie with a negative id', async () => {
             const id = -5;
             const movie = await movieService.getOne(id);
 
@@ -73,6 +79,8 @@ describe('tests for MovieService', () => {
     });
 
     describe("the createNew method", () => {
+
+        expect.assertions(2);
 
         it(`creates a new movie with a unique name.`, async () => {
 
@@ -124,6 +132,8 @@ describe('tests for MovieService', () => {
     });
 
     describe("the updateOne method", () => {
+
+        expect.assertions(2);
 
         it(`updates a movie (all fields).`, async () => {
 
@@ -192,6 +202,8 @@ describe('tests for MovieService', () => {
     });
 
     describe("the deleteOne method", () => {
+
+        expect.assertions(2);
 
         it(`successfully deletes a movie`, async () => {
 

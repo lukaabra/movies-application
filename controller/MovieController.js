@@ -1,4 +1,7 @@
 const movieService = require('../service/MovieService');
+const {
+    validationResult
+} = require('express-validator');
 
 /**
  * Calls the Movie service to get, create, update, or delete Movie objects
@@ -29,7 +32,8 @@ class MovieController {
                 res.status(200).json(allMovies);
             } else {
                 res.status(404).json({
-                    succcess: false
+                    succcess: false,
+                    status: 404
                 });
             }
         } catch (err) {
@@ -49,7 +53,8 @@ class MovieController {
                 res.status(200).json(movie);
             } else {
                 res.status(404).json({
-                    succcess: false
+                    succcess: false,
+                    status: 404
                 });
             }
         } catch (err) {
@@ -58,33 +63,39 @@ class MovieController {
     }
 
     async createMovie(req, res) {
+        if (!this.validateBody(req, res))
+            return;
+
+        const {
+            name,
+            genre,
+            rating,
+            explicit
+        } = req.body;
+
         try {
-            const {
-                name,
-                genre,
-                rating,
-                explicit
-            } = req.body;
 
             const createdMovieId = await movieService.createNew(name, genre, rating, explicit);
 
             if (createdMovieId) {
-                res.status(200).json({
+                res.status(201).json({
                     success: true,
-                    createdId: createdMovieId
+                    createdId: createdMovieId,
+                    status: 201
                 });
             } else {
                 res.status(404).json({
-                    succcess: false
+                    succcess: false,
+                    status: 404
                 });
             }
         } catch (err) {
-            console.log(err);
-
+            // Key already exists error code
             if (err.code = 23505) {
                 res.status(409).json({
                     succcess: false,
                     message: 'Title already exists. Please choose another movie.',
+                    status: 409
                 });
             } else {
                 res.status(500).json(err);
@@ -93,6 +104,9 @@ class MovieController {
     }
 
     async updateMovie(req, res) {
+        if (!this.validateBody(req, res))
+            return;
+
         try {
             const {
                 name,
@@ -110,11 +124,11 @@ class MovieController {
                 res.status(200).json(movie);
             } else {
                 res.status(404).json({
-                    succcess: false
+                    succcess: false,
+                    status: 404
                 });
             }
         } catch (err) {
-            console.log(err);
             res.status(500).json(err);
         }
     }
@@ -132,12 +146,26 @@ class MovieController {
             } else {
                 res.status(404).json({
                     succcess: false,
-                    message: 'A movie with that id does not exist'
+                    message: 'A movie with that id does not exist',
+                    status: 404
                 });
             }
         } catch (err) {
-            console.log(err);
             res.status(500).json(err);
+        }
+    }
+
+    validateBody(req, res) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(400).json({
+                succcess: false,
+                message: 'Check for any incorrectly filled fields.',
+                status: 400
+            });
+            return false;
+        } else {
+            return true;
         }
     }
 
