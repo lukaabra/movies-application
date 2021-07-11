@@ -13,6 +13,16 @@ class MovieRepository {
         return knex.from('movies').select('name', 'genre', 'rating', 'explicit');
     }
 
+    getOne(id) {
+        return knex.from('movies').where({
+            id: id
+        }).select('name', 'genre', 'rating', 'explicit');
+    }
+
+    updateOne(id, title, genre, rating, explicit) {
+
+    }
+
 }
 
 module.exports = new MovieRepository();

@@ -3,38 +3,80 @@ const movieService = require('../service/MovieService');
 
 const limit = 50;
 
-describe("the getAll method", () => {
-
-    const allMovies = movieService.getAll();
-
-    beforeAll((done) => {
-        // const seed = knex.insert(require('../db/seeds/movies_seed'));
-        // return knex.migrate.latest().then(seed);
-        done();
-    })
+describe('tests for MovieService', () => {
 
     afterAll(() => {
-        // Closing the DB connection allows Jest to exit successfully.
-        // return knex.migrate
-        //     .rollback()
-        //     .then(() => knex.destroy());
         return knex.destroy();
-    })
-
-    it(`returns at least one movie.`, async () => {
-        expect((await allMovies).length).toBeGreaterThan(0);
     });
 
-    it(`returns up to a maximum of ${limit} movies.`, async () => {
-        expect((await allMovies).length).toBeLessThanOrEqual(50);
+    describe("the getAll method", () => {
+
+        const allMovies = movieService.getAll();
+
+        it(`returns at least one movie.`, async () => {
+            expect((await allMovies).length).toBeGreaterThan(0);
+        });
+
+        it(`returns up to a maximum of ${limit} movies.`, async () => {
+            expect((await allMovies).length).toBeLessThanOrEqual(50);
+        });
+
+        it(`returns an array of movies`, async () => {
+            expect(await allMovies).toBeInstanceOf(Array);
+        });
+
+        it('the first element of the array is a JSON', async () => {
+            expect((await allMovies)[0]).toBeInstanceOf(Object);
+        });
+
     });
 
-    it(`returns an array of movies`, async () => {
-        expect(await allMovies).toBeInstanceOf(Array);
-    });
+    describe("the getOne method", () => {
 
-    it('the first element of the array is a JSON', async () => {
-        expect((await allMovies)[0]).toBeInstanceOf(Object);
-    });
+        it(`returns at least one movie.`, async () => {
+            const id = 19;
+            const movie = await movieService.getOne(id);
 
+            expect(movie).toHaveLength(1);
+            expect(movie[0]).toBeInstanceOf(Object);
+            expect(movie[0]).toEqual(expect.objectContaining({
+                name: expect.any(String),
+                genre: expect.any(String),
+                rating: expect.any(Number),
+                explicit: expect.any(Boolean)
+            }));
+        });
+
+        it(`returns up to a maximum of ${limit} movies.`, async () => {
+            const id = 1;
+            const movie = await movieService.getOne(id);
+
+            expect(movie).toEqual([]);
+        });
+
+        it(`returns an array of movies`, async () => {
+            const id = 40;
+            const movie = await movieService.getOne(id);
+
+            expect(movie).toHaveLength(0);
+            expect(movie).toEqual([]);
+        });
+
+        it('the first element of the array is a JSON', async () => {
+            const id = 0;
+            const movie = await movieService.getOne(id);
+
+            expect(movie).toHaveLength(0);
+            expect(movie).toEqual([]);
+        });
+
+        it('the first element of the array is a JSON', async () => {
+            const id = -5;
+            const movie = await movieService.getOne(id);
+
+            expect(movie).toHaveLength(0);
+            expect(movie).toEqual([]);
+        });
+
+    });
 });

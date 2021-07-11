@@ -12,8 +12,8 @@ class MovieService {
         return await movieRepo.getAll(limit, offset);
     }
 
-    getOne(id) {
-
+    async getOne(id) {
+        return await movieRepo.getOne(id);
     }
 
     updateOne(id, title, genre, rating, explicit) {

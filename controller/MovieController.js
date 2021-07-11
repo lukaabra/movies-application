@@ -24,14 +24,37 @@ class MovieController {
 
         try {
             const allMovies = await movieService.getAll(limit, offset);
-            res.status(200).json(allMovies)
+
+            if (allMovies) {
+                res.status(200).json(allMovies);
+            } else {
+                res.status(404).json({
+                    succcess: false
+                });
+            }
         } catch (err) {
-            console.log(err);
+            res.status(500).json(err);
         }
     }
 
-    getMovie(id) {
+    async getMovie(req, res) {
+        try {
+            const {
+                id
+            } = req.params;
 
+            const movie = await movieService.getOne(id);
+
+            if (movie) {
+                res.status(200).json(movie);
+            } else {
+                res.status(404).json({
+                    succcess: false
+                });
+            }
+        } catch (err) {
+            res.status(500).json(err);
+        }
     }
 
     createMovie(title, genre, rating, explicit) {
