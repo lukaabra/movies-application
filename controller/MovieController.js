@@ -49,16 +49,20 @@ class MovieController {
 
             const movie = await movieService.getOne(id);
 
-            if (movie) {
+            if (movie.length > 0 && movie) {
                 res.status(200).json(movie);
             } else {
                 res.status(404).json({
                     succcess: false,
-                    status: 404
+                    status: 404,
                 });
             }
         } catch (err) {
-            res.status(500).json(err);
+            res.status(500).json({
+                err: err,
+                success: false,
+                status: 500
+            });
         }
     }
 
@@ -118,6 +122,14 @@ class MovieController {
                 id
             } = req.params;
 
+            if (explicit instanceof String) {
+                res.status(400).json({
+                    succcess: false,
+                    message: 'Check for any incorrectly filled fields.',
+                    status: 400
+                });
+            }
+
             const movie = await movieService.updateOne(id, name, genre, rating, explicit);
 
             if (movie) {
@@ -147,7 +159,8 @@ class MovieController {
                 res.status(404).json({
                     succcess: false,
                     message: 'A movie with that id does not exist',
-                    status: 404
+                    status: 404,
+                    result: result
                 });
             }
         } catch (err) {

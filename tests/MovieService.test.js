@@ -171,6 +171,48 @@ describe('tests for MovieService', () => {
             expect(tableCountBefore).toBe(tableCountAfter);
         });
 
+        it(`updates a movie (all fields) several times. idempotent test.`, async () => {
+
+            const id = 5,
+                name = 'Totally new name',
+                genre = 'Romance',
+                rating = 2,
+                explicit = false;
+
+            // Before the update
+            const movieBefore = (await knex.from('movies').where({
+                id: id
+            }).select('name', 'genre', 'rating', 'explicit'))[0];
+
+            await movieService.updateOne(id, name, genre, rating, explicit);
+
+            // After first update
+            const movieMiddle = (await knex.from('movies').where({
+                id: id
+            }).select('name', 'genre', 'rating', 'explicit'))[0];
+
+            await movieService.updateOne(id, name, genre, rating, explicit);
+
+            // After second update
+            const movieAfter = (await knex.from('movies').where({
+                id: id
+            }).select('name', 'genre', 'rating', 'explicit'))[0];
+
+            expect(movieAfter).toEqual(expect.objectContaining({
+                name: name,
+                genre: genre,
+                rating: rating,
+                explicit: explicit
+            }));
+            expect(movieBefore).not.toEqual(expect.objectContaining({
+                name: movieAfter.name,
+                genre: movieAfter.genre,
+                rating: movieAfter.rating,
+                explicit: movieAfter.explicit
+            }));
+            expect(movieMiddle).toEqual(movieAfter);
+        });
+
         it(`attempts to update a movie that doesn't exist.`, async () => {
 
             const id = 10000,

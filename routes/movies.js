@@ -22,7 +22,11 @@ router.post(`${apiVersion}/movies`,
 
 
 
-router.get(`${apiVersion}/movies/:id`, movieController.getMovie);
+router.get(`${apiVersion}/movies/:id`,
+    param('id').isInt({
+        min: 0
+    }),
+    movieController.getMovie);
 
 router.put(`${apiVersion}/movies/:id`,
     body('name').not().isEmpty().trim(),
@@ -32,8 +36,15 @@ router.put(`${apiVersion}/movies/:id`,
         max: 10
     }),
     body('explicit').isBoolean(),
+    param('id').isInt({
+        min: 0
+    }),
     movieController.updateMovie);
 
-router.delete(`${apiVersion}/movies/:id`, movieController.deleteMovie);
+router.delete(`${apiVersion}/movies/:id`,
+    param('id').isInt({
+        min: 0
+    }),
+    movieController.deleteMovie);
 
 module.exports = router;
