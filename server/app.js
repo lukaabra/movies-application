@@ -2,7 +2,8 @@ const createError = require('http-errors'),
   express = require('express'),
   path = require('path'),
   cookieParser = require('cookie-parser'),
-  logger = require('morgan');
+  logger = require('morgan'),
+  cors = require('cors');
 
 var app = express();
 
@@ -15,7 +16,11 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
+
+app.use(express.static(path.join(__dirname, './client/public')));
 
 // catch 404 and forward to error handler
 // app.use(function (req, res, next) {

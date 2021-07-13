@@ -46,6 +46,7 @@ describe('tests for MovieService', () => {
             expect(movie).toHaveLength(1);
             expect(movie[0]).toBeInstanceOf(Object);
             expect(movie[0]).toEqual(expect.objectContaining({
+                id: expect.any(Number),
                 name: expect.any(String),
                 genre: expect.any(String),
                 rating: expect.any(Number),

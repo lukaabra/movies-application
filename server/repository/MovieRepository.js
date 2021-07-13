@@ -7,13 +7,13 @@ class MovieRepository {
     }
 
     getAll(limit, offset) {
-        return knex.from('movies').select('name', 'genre', 'rating', 'explicit');
+        return knex.from('movies').select('id', 'name', 'genre', 'rating', 'explicit');
     }
 
     getOne(id) {
         return knex.from('movies').where({
             id: id
-        }).select('name', 'genre', 'rating', 'explicit');
+        }).select('id', 'name', 'genre', 'rating', 'explicit');
     }
 
     createNew(name, genre, rating, explicit) {

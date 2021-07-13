@@ -1,4 +1,3 @@
 node_modules/
-data/
-public/dist/
+client/public/dist/
 .env
