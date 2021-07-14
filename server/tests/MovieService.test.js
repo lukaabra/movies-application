@@ -11,6 +11,8 @@ describe('tests for MovieService', () => {
 
     describe("the getAll method", () => {
 
+        // TEST LIMIT AND OFFSET
+
         const allMovies = movieService.getAll();
 
         it(`returns at least one movie.`, async () => {
@@ -43,8 +45,12 @@ describe('tests for MovieService', () => {
             const id = 1;
             const movie = await movieService.getOne(id);
 
+            // Idempotent test
+            const newMovie = await movieService.getOne(id);
+
             expect(movie).toHaveLength(1);
             expect(movie[0]).toBeInstanceOf(Object);
+            expect(movie[0]).toEqual(newMovie[0])
             expect(movie[0]).toEqual(expect.objectContaining({
                 id: expect.any(Number),
                 name: expect.any(String),

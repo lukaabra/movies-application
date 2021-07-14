@@ -22,8 +22,8 @@ class MovieController {
             offset
         } = req.query;
 
-        limit = Math.min(limit, 50);
-        offset = parseInt(offset);
+        limit = Math.min(limit, 5) || 5;
+        offset = parseInt(offset) || 0;
 
         try {
             const allMovies = await movieService.getAll(limit, offset);
@@ -170,7 +170,6 @@ class MovieController {
 
     validateBody(req, res) {
         const errors = validationResult(req);
-        console.log(req.body);
         if (!errors.isEmpty()) {
             res.status(400).json({
                 succcess: false,

@@ -7,7 +7,7 @@ class MovieRepository {
     }
 
     getAll(limit, offset) {
-        return knex.from('movies').select('id', 'name', 'genre', 'rating', 'explicit');
+        return knex.from('movies').select('id', 'name', 'genre', 'rating', 'explicit').limit(limit).offset(offset);
     }
 
     getOne(id) {
