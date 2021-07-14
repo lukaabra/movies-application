@@ -19,7 +19,7 @@ class Table extends React.Component {
             const res = await axios.get('http://localhost:3001/api/v1/movies');
             var movies = res.data
         } catch (error) {
-            // push to error page
+            this.props.history.push("/error");
         }
 
         this.setState(() => ({
@@ -33,12 +33,10 @@ class Table extends React.Component {
             return movie.name === clickedMovie
         })[0];
 
-        console.log(result);
-
         try {
             await axios.delete(`http://localhost:3001/api/v1/movies/${result.id}`);
         } catch (error) {
-            // push to error page
+            this.props.history.push("/error");
         }
 
         this.getMovies();
@@ -67,7 +65,11 @@ class Table extends React.Component {
                                 </tr>
                             ) : (
                                 this.state.movies.map((movie) => (
-                                    <MovieTableRow movie={movie} key={movie.id} deleteMovie={this.deleteMovie} />
+                                    <MovieTableRow
+                                        movie={movie}
+                                        key={movie.id}
+                                        deleteMovie={this.deleteMovie}
+                                    />
                                 ))
                             )
                         }

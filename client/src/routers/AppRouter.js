@@ -3,8 +3,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import HomePage from '../components/HomePage';
 import MoviesPage from '../components/MoviesPage';
+import AddMoviePage from '../components/AddMoviePage';
 import ErrorPage from '../components/ErrorPage';
 import NotFoundPage from '../components/NotFoundPage';
+import EditMoviePage from '../components/EditMoviePage';
 
 
 const AppRouter = () => {
@@ -14,6 +16,8 @@ const AppRouter = () => {
             <Switch>
                 <Route path="/" component={HomePage} exact={true} />
                 <Route path="/movies" component={MoviesPage} exact={true} />
+                <Route path="/movies/new" component={AddMoviePage} />
+                <Route path="/movies/:id" component={EditMoviePage} />
                 <Route path="/error" component={ErrorPage} />
                 <Route component={NotFoundPage} />
             </Switch>

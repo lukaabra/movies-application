@@ -12,7 +12,7 @@ const HomePage = () => {
             <Link
                 to={'/movies'}
                 className="link">
-                <a>See all movies</a>
+                <h5>See all movies</h5>
             </Link>
             <Footer />
         </div>

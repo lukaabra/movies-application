@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const MovieTableRow = (props) => {
 
@@ -9,7 +10,9 @@ const MovieTableRow = (props) => {
             <td>{props.movie.rating}</td>
             <td>{props.movie.explicit}</td>
             <td onClick={props.deleteMovie}>x</td>
-            <td>{props.movie.id}</td>
+            <td>
+                <Link to={`/movies/${props.movie.id}`}>edit</Link>
+            </td>
         </tr>
     );
 

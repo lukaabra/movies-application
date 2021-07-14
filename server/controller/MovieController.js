@@ -170,6 +170,7 @@ class MovieController {
 
     validateBody(req, res) {
         const errors = validationResult(req);
+        console.log(req.body);
         if (!errors.isEmpty()) {
             res.status(400).json({
                 succcess: false,
