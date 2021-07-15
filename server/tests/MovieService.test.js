@@ -1,7 +1,7 @@
 const knex = require('../db/connection');
 const movieService = require('../service/MovieService');
 
-const limit = 50;
+const limit = 10;
 
 describe('tests for MovieService', () => {
 
@@ -13,33 +13,36 @@ describe('tests for MovieService', () => {
 
         // TEST LIMIT AND OFFSET
 
-        const allMovies = movieService.getAll();
+        it(`returns default amount of movies.`, async () => {
+            const allMovies = await movieService.getAll();
+            console.log(allMovies.length)
+            console.log(allMovies instanceof Array)
+            console.log(allMovies[0] instanceof Object)
 
-        it(`returns at least one movie.`, async () => {
-            expect.assertions(1);
-            expect((await allMovies).length).toBeGreaterThan(0);
+            expect(allMovies.length).toBeGreaterThan(0);
+            expect(allMovies.length).toBeLessThanOrEqual(limit);
+            expect(allMovies).toBeInstanceOf(Array);
+            expect(allMovies[0]).toBeInstanceOf(Object);
         });
 
-        it(`returns up to a maximum of ${limit} movies.`, async () => {
-            expect.assertions(1);
-            expect((await allMovies).length).toBeLessThanOrEqual(50);
+        it(`returns up to a maximum of a preset limit movies. preset limit is 5`, async () => {
+            const passedLimitMovies = await movieService.getAll(5);
+
+            expect(passedLimitMovies.length).toBeLessThanOrEqual(5);
+            expect(passedLimitMovies).toBeInstanceOf(Array);
+            expect(passedLimitMovies[0]).toBeInstanceOf(Object);
         });
 
-        it(`returns an array of movies`, async () => {
-            expect.assertions(1);
-            expect((await allMovies)).toBeInstanceOf(Array);
-        });
+        it(`returns up to a maximum of default limit movies with offset 3.`, async () => {
+            const defaultOffsetMovies = await movieService.getAll(limit)
+            const presetOffsetMovies = await movieService.getAll(limit, 3);
 
-        it('has a JSON inside of an array', async () => {
-            expect.assertions(1);
-            expect((await allMovies)[0]).toBeInstanceOf(Object);
+            expect(presetOffsetMovies).not.toMatchObject(defaultOffsetMovies);
         });
 
     });
 
     describe("the getOne method", () => {
-
-        expect.assertions(4);
 
         it(`returns one movie.`, async () => {
             const id = 1;
@@ -86,8 +89,6 @@ describe('tests for MovieService', () => {
     });
 
     describe("the createNew method", () => {
-
-        expect.assertions(2);
 
         it(`creates a new movie with a unique name.`, async () => {
 
@@ -139,8 +140,6 @@ describe('tests for MovieService', () => {
     });
 
     describe("the updateOne method", () => {
-
-        expect.assertions(2);
 
         it(`updates a movie (all fields).`, async () => {
 
@@ -251,8 +250,6 @@ describe('tests for MovieService', () => {
     });
 
     describe("the deleteOne method", () => {
-
-        expect.assertions(2);
 
         it(`successfully deletes a movie`, async () => {
 
