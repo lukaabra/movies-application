@@ -4,19 +4,27 @@ This is a movies application made using NodeJS, Express, Knex, React, and Bootst
 
 ### Running
 
-Clone the repository and install the node modules by running the following command from the root directory of the project:
+Clone the repository and install the node modules in the client directory, as well as server. For this you will need to open two terminals. In one of them enter the following command:
 
-`npm run install`
+`cd server`
+
+`npm i`
+
+In the other terminal, enter this:
+
+`cd client`
+
+`npm i`
 
 For the server to connect to the database, create a `.env` file in the `server` directory with the database connection string as `DB_CONNECTION`.
 
 After the installation is complete you can run the servers. The SPA server and the API server need to be run in separate terminals. Run the API server with the following command:
 
-`cd server && npm run start`
+`npm run start`
 
-Open another terminal, and enter the following command to run the SPA server:
+Open another terminal, and enter the same command to run the SPA server:
 
-`cd client && npm run start`
+`npm run start`
 
 And wait for the web app to start in a newly opened browser tab. If it doesn't open, visit the following URL:
 `http://localhost:3000`
