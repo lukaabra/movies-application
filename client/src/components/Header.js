@@ -1,13 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const Header = () => {
     return (
-        <Link to={"/movies"}>
-            <h1>
-                Movies
-            </h1>
-        </Link>
+        <h1 className="col-xl-4 mx-auto text-center mt-4">
+            Movies
+        </h1>
     )
 }
 

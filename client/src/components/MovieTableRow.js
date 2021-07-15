@@ -8,10 +8,10 @@ const MovieTableRow = (props) => {
             <td>{props.movie.name}</td>
             <td>{props.movie.genre}</td>
             <td>{props.movie.rating}</td>
-            <td>{props.movie.explicit}</td>
-            <td onClick={props.deleteMovie}>x</td>
+            <td>{props.movie.explicit === true ? "True" : "False"}</td>
+            <td onClick={props.deleteMovie} className="delete-emoji">❌</td>
             <td>
-                <Link to={`/movies/${props.movie.id}`}>edit</Link>
+                <Link to={`/movies/${props.movie.id}`}>🖊️</Link>
             </td>
         </tr>
     );

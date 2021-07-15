@@ -22,9 +22,6 @@ class MovieController {
             offset
         } = req.query;
 
-        limit = Math.min(limit, 5) || 5;
-        offset = parseInt(offset) || 0;
-
         try {
             const allMovies = await movieService.getAll(limit, offset);
 

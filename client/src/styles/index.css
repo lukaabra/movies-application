@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.delete-emoji {
+  cursor: pointer;
+}
+
+.link-custom {
+  padding: 0.2rem;
+  display: block;
+  text-decoration: none;
+  color: #DDD;
+  transition: 0.3ms color;
+}
+
+.link-custom:hover {
+  color: #FFF
+}
+
+.btn {
+  padding: 0;
+}

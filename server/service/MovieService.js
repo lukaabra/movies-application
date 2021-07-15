@@ -9,7 +9,7 @@ class MovieService {
     constructor() {}
 
     async getAll(limit, offset) {
-        limit = limit == undefined ? 50 : limit;
+        limit = limit == undefined ? 10 : limit;
         offset = offset == undefined ? 0 : offset;
 
         return await movieRepo.getAll(limit, offset);

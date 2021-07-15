@@ -1,15 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Container, Row, Button } from 'react-bootstrap';
 
 import MovieForm from './MovieForm';
 
 const axios = require('axios');
 
 class AddMoviePage extends React.Component {
-
-    componentDidMount() {
-        console.log(this.props)
-    }
 
     state = {
         title: "",
@@ -67,7 +64,7 @@ class AddMoviePage extends React.Component {
             };
 
             if (this.postMovie(movie)) {
-                this.props.history.push('/movies');
+                this.props.history.push('/');
             } else {
                 this.props.history.push('/error')
             }
@@ -76,21 +73,29 @@ class AddMoviePage extends React.Component {
 
     render() {
         return (
-            <div>
-                {this.state.error && <h4>{this.state.error}</h4>}
-                <MovieForm
-                    onTitleChange={this.onTitleChange}
-                    onGenreChange={this.onGenreChange}
-                    onRatingChange={this.onRatingChange}
-                    onExplicitChange={this.onExplicitChange}
-                    onSubmit={this.onSubmit}
-                    title={this.state.title}
-                    genre={this.state.genre}
-                    rating={this.state.rating}
-                    explicit={this.state.explicit}
-                />
-                <Link to={"/movies"}>Go back</Link>
-            </div>
+            <Container>
+                <Row>
+                    {this.state.error && <h4>{this.state.error}</h4>}
+                    <MovieForm
+                        onTitleChange={this.onTitleChange}
+                        onGenreChange={this.onGenreChange}
+                        onRatingChange={this.onRatingChange}
+                        onExplicitChange={this.onExplicitChange}
+                        onSubmit={this.onSubmit}
+                        title={this.state.title}
+                        genre={this.state.genre}
+                        rating={this.state.rating}
+                        explicit={this.state.explicit}
+                    />
+                </Row>
+                <Row className="justify-content-center my-3">
+                    <Button variant="dark" className="col-6 col-md-2 border text-center">
+                        <Link to="/" className="link-custom">
+                            Back
+                        </Link>
+                    </Button>
+                </Row>
+            </Container>
         );
     }
 
