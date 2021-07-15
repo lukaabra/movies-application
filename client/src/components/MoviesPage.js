@@ -21,7 +21,7 @@ class MoviesPage extends React.Component {
                             </Link>
                         </Button>
                     </Row>
-                    <CustomTable />
+                    <CustomTable {...this.props} />
                 </Row>
             </Container>
         );
