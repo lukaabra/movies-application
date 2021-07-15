@@ -4,11 +4,19 @@ This is a movies application made using NodeJS, Express, Knex, React, and Bootst
 
 ### Running
 
-Clone the repository and install the node modules by running the following script from the root directory of the project:
-`cd client && npm i && cd ../server && npm i`
+Clone the repository and install the node modules by running the following command from the root directory of the project:
 
-To run the server as well as the client run the following script from the root directory of the project:
-`cd server && npm run start && cd ../server && npm run start`
+`npm run install`
+
+For the server to connect to the database, create a `.env` file in the `server` directory with the database connection string as `DB_CONNECTION`.
+
+After the installation is complete you can run the servers. The SPA server and the API server need to be run in separate terminals. Run the API server with the following command:
+
+`cd server && npm run start`
+
+Open another terminal, and enter the following command to run the SPA server:
+
+`cd client && npm run start`
 
 And wait for the web app to start in a newly opened browser tab. If it doesn't open, visit the following URL:
 `http://localhost:3000`
@@ -26,6 +34,8 @@ The **Service** completes and calculations needed between retrieving the data fr
 **Repository's** only duty is to get data from the database. The Service and Controller don't care how it's done, they just expect it to be correct. This allows to switch databases without needing to refactor a lot of objects.
 
 Testing has been done using Jest. The testing is split into two suites, unit testing the Service object and black-box testing the API (Controller).
+
+Postgres is used for data storage. It's hosted on ElephantSQL and connected remotely.
 
 ### Front-End
 

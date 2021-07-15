@@ -20,6 +20,7 @@
     "find-config": "^1.0.0",
     "http-errors": "^1.6.3",
     "knex": "^0.95.7",
+    "morgan": "^1.10.0",
     "pg": "^8.6.0"
   },
   "devDependencies": {
