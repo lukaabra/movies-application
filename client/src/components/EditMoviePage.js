@@ -9,8 +9,8 @@ const axios = require('axios');
 
 class EditMoviePage extends React.Component {
 
-    async componentDidMount() {
-        await this.getMovie();
+    componentDidMount() {
+        this.getMovie();
     }
 
     state = {
