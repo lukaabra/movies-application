@@ -10,8 +10,8 @@ class CustomTable extends React.Component {
         movies: []
     }
 
-    async componentDidMount() {
-        await this.getMovies();
+    componentDidMount() {
+        this.getMovies();
     }
 
     getMovies = async () => {
